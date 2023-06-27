@@ -126,6 +126,10 @@ Check container id:
 ```bash
 docker ps 
 ```
+Stop the docker container
+```bash
+docker stop {container_id}
+```
 
 Remove the container: 
 ```bash

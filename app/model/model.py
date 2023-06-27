@@ -1,6 +1,7 @@
 import pickle
 import re
 from pathlib import Path
+from typing import Tuple
 
 __version__ = "0.1.0"
 
@@ -44,10 +45,15 @@ def preprocess_text(text: str) -> str:
     return text
 
 
-def predict_pipeline(text: str) -> str:
+def predict_pipeline(text: str) -> Tuple[str, float]:
     """
     Predict the language for the given text
     """
     text = preprocess_text(text)
     pred = model.predict([text])
-    return classes[pred[0]]
+    prob = round(model.predict_proba([text])[0][pred[0]], 2)
+    return classes[pred[0]], prob
+
+
+if __name__ == '__main__':
+    print(predict_pipeline('hello, my name is charles. I would like to chat with you!'))
