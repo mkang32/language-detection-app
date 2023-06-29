@@ -1,7 +1,10 @@
 # Language Detection App
 ## 1. What it is
 This is a web app that identifies what language a text input is written in. The model is based on [this tutorial](https://github.com/AssemblyAI-Examples/ml-fastapi-docker-heroku).
-![](images/main_page.png)
+
+
+https://github.com/mkang32/language-detection-app/assets/26635198/485628ee-2dd3-4de1-97da-3869031d42d9
+
 
 ## 2. How to run the app
 ### 2.1. Setting the local environment
