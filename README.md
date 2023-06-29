@@ -1,12 +1,38 @@
 # Language Detection App
 ## 1. What it is
-This is a language detection model API developed
-based on this tutorial ([AssemblyAI-Examples/ml-fastapi-docker-heroku](https://github.com/AssemblyAI-Examples/ml-fastapi-docker-heroku)).
+This is a web app that identifies what language a text input is written in. The model is based on [this tutorial](https://github.com/AssemblyAI-Examples/ml-fastapi-docker-heroku).
+![](images/main_page.png)
 
-You can get send an API request with a text input and it will return which language it is. 
+## 2. How to run the app
+### 2.1. Setting the local environment
+Create a virtual environment
+```bash
+python3 -m venv venv-language-detection
+```
+Activate the virtual environment 
+```bash
+source venv-language-detection/bin/activate
+```
+Install requirements
+```bash
+pip install -r requirements.txt
+```
 
-## 2. ML model
-The machine learning model development work is documented here in [Google Colab](https://colab.research.google.com/drive/1uaALcaatvxOu42IhQA4r0bahfdpw-Z7v?usp=sharing).
+### 2.2. Spin up the API service
+Run this in your terminal:
+```bash
+uvicorn app.main:app --reload
+```
+
+### 2.3. Open the streamlit app
+Open another terminal and run the following command. It will prompt a browser with the web app you can interact with.
+```bash
+streamlit run app/frontend.py
+```
+
+
+## 3. ML model
+Check out more details about the ML model in this [Google Colab](https://colab.research.google.com/drive/1uaALcaatvxOu42IhQA4r0bahfdpw-Z7v?usp=sharing).
 
 1. Dataset   
 It uses this [Kaggle Language Detection dataset](https://www.kaggle.com/datasets/basilb2s/language-detection) in a csv file, which contains 17 languages.
@@ -50,37 +76,32 @@ Export the model file as a pickle file.
         pickle.dump(pipe, f)
     ```
 
-## 3. API Development
-### 3.1. Setting the local environment
-Create a virtual environment
-```bash
-python3 -m venv venv-language-detection
-```
-Activate the virtual environment 
-```bash
-source venv-language-detection/bin/activate
-```
-Install requirements
-```bash
-pip install -r requirements.txt
+## 4. API Development
+In this app, the model is exposed as APIs using FastAPI. Check out `app/main.py`. The main two API end points are as below:
+
+```python
+@app.get("/")
+def home():
+    return {"health_check": "OK", "model_version": model_version}
+
+
+@app.post("/predict", response_model=PredictionOut)
+def predict(payload: TextIn):
+    language, prob = predict_pipeline(payload.text)
+    return {"language": language, "probability": prob}
 ```
 
-### 3.2. Work on the app
-Expose the predict function as a POST API using FastAPI. Check out `app/main.py`
+### 4.1. Run the app locally
+For development, make sure the local environment is set up as described in the section 2. How to run the app. 
 
-### 3.3. Run the app locally
-Run this in your terminal:
-```bash
-uvicorn app.main:app --reload
-```
-You will see something like
+When running this in your terminal `uvicorn app.main:app --reload`, you will see something like
 ```bash
 INFO:     Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
 ```
-Then copy and paste the ULR to your browser. You will see the health check API results.
+Copy and paste the ULR to your browser. You will see the health check API results.
 Note that you cannot test your POST request in your browser because browsers can only handle GET requests.
 
-### 3.4. Test your API in Swagger 
+### 4.2. Test your API in Swagger 
 Go to `http://127.0.0.1:8000/docs` and test the end points.
 - Click POST `/predict` endpoint 
 - Click the 'Try it out' button
@@ -93,7 +114,7 @@ Go to `http://127.0.0.1:8000/docs` and test the end points.
 - Click the Execute button
 ![](images/test_swagger.png)
 
-### 3.5. Test your API with Postman
+### 4.3. Test your API with Postman
 Open up Postman and test the end points. 
 - Change the request type to POST
 - Add a JSON input to the Body
@@ -107,7 +128,7 @@ Open up Postman and test the end points.
 
 ![](images/test_postman.png)
 
-## 4. Dockerize
+### 4.4. Dockerize the API
 Build a Docker image. This may take a few minutes.
 ```bash
 docker build -t language-detection .
@@ -136,5 +157,17 @@ Remove the container:
 docker rm {container_id}
 ```
 
-## 5. Deployment
-You can now deploy this to any web server like Heroku. To do that, add heroku.yml and use heroku cli. 
+## 5. Frontend
+The frontend of the app is developed in Streamlit. It makes an API request with the given input text and visualize in the browser.
+
+Note that right now, the endpoint points to local host. If the API is deployed to a web server, update the URL. 
+```python
+# make prediction on click
+if st.button("Predict :sunglasses:"):
+    res = requests.post(url="http://127.0.0.1:8000/predict", data=json.dumps({"text": text}))
+    res = res.json()
+    st.subheader(f"**{res.get('language')}** with the probability of **{res.get('probability')}**")
+```
+
+## Others
+Frontend photo credit: [Towfiqu barbhuiya](https://unsplash.com/@towfiqu999999?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText) on Unsplash
