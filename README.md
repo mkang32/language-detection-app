@@ -28,10 +28,12 @@ uvicorn app.main:app --reload
 ```
 
 ### 2.3. Open the streamlit app
-Open another terminal and run the following command. It will prompt a browser with the web app you can interact with.
+Open another terminal and run the following command. 
 ```bash
 streamlit run app/frontend.py
 ```
+You will be able to see the web app in your broswer at this URL:
+```http://localhost:8501```
 
 
 ## 3. ML model
