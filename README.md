@@ -24,13 +24,15 @@ pip install -r requirements.txt
 ### 2.2. Spin up the API service
 Run this in your terminal:
 ```bash
-uvicorn app.main:app --reload
+cd app-api
+uvicorn main:app --reload
 ```
 
 ### 2.3. Open the streamlit app
 Open another terminal and run the following command. 
 ```bash
-streamlit run app/frontend.py
+cd app-frontend
+streamlit run main.py
 ```
 You will be able to see the web app in your broswer at this URL:
 ```http://localhost:8501```
@@ -136,12 +138,12 @@ Open up Postman and test the end points.
 ### 4.4. Dockerize the API
 Build a Docker image. This may take a few minutes.
 ```bash
-docker build -t language-detection .
+docker build -t language-detection-api .
 ```
 
 Start the Docker Container with the following command
 ```bash
-docker run -d --name language-detection -p 80:80 language-detection
+docker run -d --name language-detection-api -p 80:80 language-detection-api
 ```
 
 Go to swagger (http://0.0.0.0/docs) or use Postman to test out the endpoints in your dockerized app. Use the same steps above but with the replaced url (http://0.0.0.0:80).
@@ -174,5 +176,42 @@ if st.button("Predict :sunglasses:"):
     st.subheader(f"**{res.get('language')}** with the probability of **{res.get('probability')}**")
 ```
 
+### Running the frontend locally
+
+
+### Frontend dockerization
+Go to `app-frontend` folder and build a Docker image. This may take a few minutes.
+```bash
+cd app-frontend
+docker build -t language-detection-frontend .
+```
+
+Start the Docker Container with the following command
+```bash
+docker run -p 8501:8501 language-detection-frontend
+```
+
+Run the container by executing:
+```bash
+docker run -p 8501:8501 language-detection-frontend
+```
+
+You should see the output similar to the following:
+```bash
+
+Collecting usage statistics. To deactivate, set browser.gatherUsageStats to False.
+
+
+  You can now view your Streamlit app in your browser.
+
+  URL: http://0.0.0.0:8501
+```
+
+Note that you may need to change API_URL in `app-frontend/settings.py` depending on how the API service is run. By default, the streamlit app assumes it is running from the docker container (http://0.0.0.0).  
+
 ## Others
 Frontend photo credit: [Towfiqu barbhuiya](https://unsplash.com/@towfiqu999999?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText) on Unsplash
+
+# Reference
+* [AssemblyAI Example "ml-fastapi-docker-heroku"](https://github.com/AssemblyAI-Examples/ml-fastapi-docker-heroku)
+* [Paul Iusztin's "The Full Stack 7-Steps MLOps Framework](https://github.com/iusztinpaul/energy-forecasting)
