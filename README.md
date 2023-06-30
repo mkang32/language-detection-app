@@ -24,13 +24,15 @@ pip install -r requirements.txt
 ### 2.2. Spin up the API service
 Run this in your terminal:
 ```bash
-uvicorn app.main:app --reload
+cd app-api
+uvicorn main:app --reload
 ```
 
 ### 2.3. Open the streamlit app
 Open another terminal and run the following command. 
 ```bash
-streamlit run app/frontend.py
+cd app-frontend
+streamlit run frontend.py
 ```
 You will be able to see the web app in your broswer at this URL:
 ```http://localhost:8501```
@@ -176,3 +178,33 @@ if st.button("Predict :sunglasses:"):
 
 ## Others
 Frontend photo credit: [Towfiqu barbhuiya](https://unsplash.com/@towfiqu999999?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText) on Unsplash
+
+
+## Poetry 
+Install Poetry 
+```bash
+curl -sSL https://install.python-poetry.org | python3 -
+```
+Add path to .zshrc
+```bash
+export PATH="/Users/Minkyung/.local/bin:$PATH"
+```
+initialize the project
+```
+poetry init
+```
+
+Create a nested shell using 
+```bash
+poetry shell
+```
+To deactivate, use `deactivate` or `exit`. 
+
+Update the lock file 
+```bash
+poetry lock
+```
+Install dependencies
+```bash
+poetry install
+```

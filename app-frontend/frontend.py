@@ -7,7 +7,7 @@ from PIL import Image
 st.title("Language Detection App")
 
 
-image = Image.open('images/front_image.jpg')
+image = Image.open('./images/front_image.jpg')
 st.image(image)
 expander = st.expander("Check supported languages")
 expander.write("""
