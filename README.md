@@ -1,25 +1,44 @@
 # Language Detection App
 ## 1. What it is
-This is a web app that identifies what language a text input is written in. The model is based on [this tutorial](https://github.com/AssemblyAI-Examples/ml-fastapi-docker-heroku).
-
-
+This is a web app that identifies what language a text input is written in.
 https://github.com/mkang32/language-detection-app/assets/26635198/485628ee-2dd3-4de1-97da-3869031d42d9
 
+This repo consists of two parts: the RESTful API service (`app-api`) and the Streamlit frontend (`app-frontend`). The Streamlit frontend makes API requests to get language predictions and visualize the results. 
 
 ## 2. How to run the app
 ### 2.1. Setting the local environment
+As there are two services running separately, you will need to create two environments.
+
+#### app-api
 Create a virtual environment
 ```bash
-python3 -m venv venv-language-detection
+cd app-api
+python3 -m venv venv-language-detection-api
 ```
 Activate the virtual environment 
 ```bash
-source venv-language-detection/bin/activate
+source venv-language-detection-api/bin/activate
 ```
 Install requirements
 ```bash
 pip install -r requirements.txt
 ```
+
+#### app-frontend
+Create a virtual environment
+```bash
+cd app-frontend
+python3 -m venv venv-language-detection-frontend
+```
+Activate the virtual environment 
+```bash
+source venv-language-detection-frontend/bin/activate
+```
+Install requirements
+```bash
+pip install -r requirements.txt
+```
+
 
 ### 2.2. Spin up the API service
 Run this in your terminal:
@@ -39,7 +58,7 @@ You will be able to see the web app in your broswer at this URL:
 
 
 ## 3. ML model
-Check out more details about the ML model in this [Google Colab](https://colab.research.google.com/drive/1uaALcaatvxOu42IhQA4r0bahfdpw-Z7v?usp=sharing).
+The model is based on [this tutorial](https://github.com/AssemblyAI-Examples/ml-fastapi-docker-heroku). Also, check out more details about the ML model in this [Google Colab](https://colab.research.google.com/drive/1uaALcaatvxOu42IhQA4r0bahfdpw-Z7v?usp=sharing).
 
 1. Dataset   
 It uses this [Kaggle Language Detection dataset](https://www.kaggle.com/datasets/basilb2s/language-detection) in a csv file, which contains 17 languages.
