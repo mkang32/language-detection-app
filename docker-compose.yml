@@ -1,0 +1,19 @@
+version: '3.9'
+
+services:
+  frontend:
+    build:
+      context: ./app-frontend
+    image: app-frontend:${APP_FRONTEND_VERSION:-latest}
+    volumes:
+    - ./app-frontend:/code
+    ports:
+      - "8501:8501"
+    depends_on:
+      - api
+  api:
+    build:
+      context: ./app-api
+    image: app-api:${APP_API_VERSION:-latest}
+    ports:
+      - "80:80"
