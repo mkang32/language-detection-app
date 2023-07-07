@@ -1,8 +1,7 @@
 # Language Detection App
 ## 1. What it is
 This is a web app that identifies what language a text input is written in.
-
-https://github.com/mkang32/language-detection-app/assets/26635198/485628ee-2dd3-4de1-97da-3869031d42d9
+![](images/demo.png)
 
 This repo consists of two parts: the RESTful API service (`app-api`) and the Streamlit frontend (`app-frontend`). The Streamlit frontend makes API requests to get language predictions and visualize the results. 
 
